@@ -1,0 +1,13 @@
+;4-3
+(define (fold-right kons knil l)
+  (if (null? l) knil (kons (car l) (fold-right kons knil (cdr l)))))
+(define (filter pred l) (fold-right (lambda (x l) (if (pred x) (cons x l) l)) [] l))
+(define (alist-assoc key alist)
+  (let ((alist_ (filter (lambda (elem) (eq? (car elem) key)) alist)))
+       (if (null? alist_) 'Not_found (car (cdr (car alist_))))))
+(define (alist-mem key alist)
+  (not (null? (filter (lambda (elem) (eq? (car elem) key)) alist))))
+(define (alist-remove key alist) (filter (lambda (elem) (not (eq? (car elem) key))) alist))
+(define (alist-add key value alist) (cons (list key value) (alist-remove key alist)))
+(define (alist-keys alist) (map car alist))
+(define (alist-values alist) (map cadr alist))
