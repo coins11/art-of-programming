@@ -1,12 +1,14 @@
 #!/bin/zsh
 
-from_addr=s1111365@coins.tsukuba.ac.jp
-to_addr=stec@score.cs.tsukuba.ac.jp
+student_number=201111365
+student_name=坂口和彦
+alias mail_command="ssh `coins-imac` 'sendmail -t'"
 
 attachment(){
-cat <<EOT
-Content-Type: text/plain; charset=UTF-8; name="$1"
-Content-Disposition: attachment; filename="$1"
+<<EOT
+------
+Content-Type: $1; charset=$2
+Content-Disposition: attachment; filename="$3"
 Content-Transfer-Encoding: base64
 
 EOT
@@ -14,21 +16,13 @@ base64
 }
 
 {
-cat <<EOT
-From: $from_addr
-To: $to_addr
+<<EOT
+To: stec@score.cs.tsukuba.ac.jp
 Subject: STEC:report
 Content-Type: multipart/mixed; boundary="----"
 
-------
 EOT
-attachment student.txt <<EOT
-201111365
-坂口和彦
-EOT
-for f in $@ ; do
-  echo ------
-  attachment "stec-`head -n 1 $f | tail -c +2`.rkt" < $f
-done
+(echo $student_number ; echo $student_name) | attachment text/plain UTF-8 student.txt
+for f in $@ ; attachment text/x-scheme UTF-8 "stec-`head -n 1 $f | tail -c +2`.rkt" < $f
 echo --------
-} | ssh `coins-imac` "sendmail -t"
+} | mail_command
