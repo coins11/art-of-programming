@@ -1,0 +1,11 @@
+;5-1
+(define-struct z ())
+(define-struct s (p))
+(define (plus n m)
+  (if (z? n) m (plus (s-p n) (make-s m))))
+(define (sub n m)
+  (if (and (s? n) (s? m)) (sub (s-p n) (s-p m)) n))
+(define (to-racket n)
+  (if (= 0 n) (make-z) (make-s (to-racket (- n 1)))))
+(define (to-num n)
+  (if (s? n) (+ 1 (to-num (s-p n))) 0))
