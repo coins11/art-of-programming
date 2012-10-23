@@ -1,0 +1,13 @@
+;7-2
+(define dx 0.00001)
+(define (curry f) (lambda (x) (lambda xs (apply f x xs))))
+(define (deriv_ f x) (/ (- (f (+ x dx)) (f x)) dx))
+(define deriv (curry deriv_))
+(define (sigma a b f)
+    (define (sr a b f)
+        (if (> a b) 0 (+ (f a) (sr (+ 1 a) b f))))
+    (if (< a b) (sr a b f) (- (sr b a f))))
+(define (integ_ f x)
+    (sigma 0 (inexact->exact (floor (/ x dx)))
+        (lambda (n) (* dx (f (* n dx))))))
+(define integ (curry integ_))
