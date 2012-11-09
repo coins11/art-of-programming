@@ -32,9 +32,9 @@
 
 (define (tree-list tr)
   (define (normalize l)
-  (cond
-	[(list? l) (fold_left (lambda (x y) (append x (normalize y))) empty l)]
-	[else (list l)]))
+	(cond
+	  [(list? l) (fold_left (lambda (x y) (append x (normalize y))) empty l)]
+	  [else (list l)]))
 
   (define (mlist t)
 	(map (lambda (x)
