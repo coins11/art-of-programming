@@ -1,9 +1,9 @@
 ;9-10
 (define (compare a b)
     (cond
-        ((> (* (car a) (cdr b)) (* (car b) (cdr a))) 'gt)
-        ((= (* (car a) (cdr b)) (* (car b) (cdr a))) 'eq)
-        ((< (* (car a) (cdr b)) (* (car b) (cdr a))) 'lt)))
+        ((> (* (car a) (cadr b)) (* (car b) (cadr a))) 'gt)
+        ((= (* (car a) (cadr b)) (* (car b) (cadr a))) 'eq)
+        ((< (* (car a) (cadr b)) (* (car b) (cadr a))) 'lt)))
 
 (define (merge f l1 l2)
     (cond
@@ -16,10 +16,7 @@
 
 (define (seq n m) (if (< m n) '() (cons n (seq (+ n 1) m))))
 
-(define (farey_ n)
+(define (farey n)
     (if (= n 0)
         '()
-        (merge compare (farey_ (- n 1)) (map (lambda (x) (cons x n)) (seq 0 n)))))
-
-(define (farey n)
-    (map (lambda (x) (list (car x) (cdr x))) (farey_ n)))
+        (merge compare (farey (- n 1)) (map (lambda (x) (list x n)) (seq 0 n)))))
