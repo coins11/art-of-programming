@@ -1,5 +1,4 @@
 ;7-2
-(define dx 0.00001)
 (define (curry f) (lambda (x) (lambda xs (apply f x xs))))
 (define (deriv_ f x) (/ (- (f (+ x dx)) (f x)) dx))
 (define deriv (curry deriv_))
